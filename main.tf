@@ -64,3 +64,7 @@ resource "aws_instance" "my_server" {
               sudo systemctl enable jenkins
               EOF
 }
+resource "aws_eip" "my_static_ip" {
+  instance = aws_instance.my_server.id
+  domain   = "vpc"
+}
