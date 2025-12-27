@@ -56,8 +56,3 @@ resource "aws_instance" "my_server" {
               sudo systemctl enable jenkins
               EOF
 }
-
-# 3. Output the Public IP so we don't have to look for it
-output "server_public_ip" {
-  value = aws_instance.my_server.public_ip
-}
