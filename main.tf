@@ -34,7 +34,7 @@ resource "aws_instance" "my_server" {
   ami                    = "ami-04b70fa74e45c3917" # Ubuntu 24.04 (us-east-1)
   instance_type          = "t3.medium"
   vpc_security_group_ids = [aws_security_group.jenkins_sg.id]
-  key_name               = "devops-key" # <--- MAKE SURE THIS MATCHES YOUR AWS KEY PAIR NAME
+  key_name               = "n-virginia" # <--- MAKE SURE THIS MATCHES YOUR AWS KEY PAIR NAME
 
   tags = {
     Name = "Jenkins-Terraform-Server"
