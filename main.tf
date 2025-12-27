@@ -1,3 +1,11 @@
+terraform {
+  backend "s3" {
+    bucket = "terraform-bucket-ralph-053010101"  # <--- PASTE YOUR EXACT BUCKET NAME HERE
+    key    = "terraform.tfstate"                # The name of the file inside the bucket
+    region = "us-east-1"
+  }
+}
+
 provider "aws" {
   region = "us-east-1"
 }
