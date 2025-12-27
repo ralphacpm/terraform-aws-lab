@@ -1,13 +1,3 @@
-terraform {
-  required_version = ">= 1.0.0" # Ensure that the Terraform version is 1.0.0 or higher
-
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws" # Specify the source of the AWS provider
-      version = "~> 4.0"        # Use a version of the AWS provider that is compatible with version
-    }
-  }
-}
 provider "aws" {
   region = "us-east-1"
 }
@@ -44,7 +34,7 @@ resource "aws_instance" "my_server" {
   ami                    = "ami-04b70fa74e45c3917" # Ubuntu 24.04 (us-east-1)
   instance_type          = "t3.medium"
   vpc_security_group_ids = [aws_security_group.jenkins_sg.id]
-  key_name               = "n-virginia" # <--- MAKE SURE THIS MATCHES YOUR AWS KEY PAIR NAME
+  key_name               = "devops-key" # <--- MAKE SURE THIS MATCHES YOUR AWS KEY PAIR NAME
 
   tags = {
     Name = "Jenkins-Terraform-Server"
@@ -67,27 +57,7 @@ resource "aws_instance" "my_server" {
               EOF
 }
 
-resource "aws_security_group" "jenkins_server" {
-  name = "Jenkins Server"
-
-  ingress {
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"] # Allow SSH from anywhere
-  }
-
-  ingress {
-    from_port   = 8080
-    to_port     = 8080
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"] # Allow Jenkins from anywhere
-  }
-
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"] # Allow server to talk to the internet
-  }
+# 3. Output the Public IP so we don't have to look for it
+output "server_public_ip" {
+  value = aws_instance.my_server.public_ip
 }
